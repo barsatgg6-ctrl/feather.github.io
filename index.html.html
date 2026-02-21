@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feather.lol - Lightweight Executor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1a1f35;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #c026d3;
+            --accent-light: #a78bfa;
+            --border: #1f2937;
+            --shadow: rgba(139, 92, 246, 0.2);
+            --success: #34d399;
+            --warning: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(5deg); }
+            66% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '🪶';
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 8px rgba(139, 92, 246, 0.5));
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-primary);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Executor Panel */
+        .executor-panel {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 0 1px var(--border);
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .code-editor {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            min-height: 300px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-editor::before {
+            content: '// Enter your script here...';
+            opacity: 0.5;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-small {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            border-radius: 10px;
+        }
+
+        .btn-execute {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            flex: 1;
+        }
+
+        .btn-clear {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-clear:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1400px;
+            margin: 8rem auto;
+            padding: 0 5%;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.5));
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Stats Section */
+        .stats {
+            max-width: 1400px;
+            margin: 8rem auto;
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 32px;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1400px;
+            margin: 4rem auto 2rem;
+            padding: 3rem 5%;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .features h2 {
+                font-size: 2rem;
+            }
+
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                gap: 2rem;
+            }
+
+            .stat-item h3 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Floating particles effect */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: floatParticle 6s ease-in-out infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                opacity: 0;
+                transform: translateY(0) translateX(0) scale(0);
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(50px) scale(1.5);
+            }
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 25%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 40%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 55%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 70%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 85%; animation-delay: 5s; }
+    </style>
+</head>
+<body>
+    <!-- Floating particles -->
+    <div class="particle" style="bottom: 0;"></div>
+    <div class="particle" style="bottom: 0;"></div>
+    <div class="particle" style="bottom: 0;"></div>
+    <div class="particle" style="bottom: 0;"></div>
+    <div class="particle" style="bottom: 0;"></div>
+    <div class="particle" style="bottom: 0;"></div>
+
+    <header>
+        <div class="logo">Feather.lol</div>
+        <nav>
+            <a href="#features">Features</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Ultra-light Script Executor</h1>
+                <p>Experience the most lightweight and powerful script executor. Blazing fast execution, minimal footprint, maximum performance.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary">
+                        ⬇️ Download
+                    </button>
+                    <a href="https://discord.gg/EGURauaBZQ" target="_blank" class="btn btn-secondary">
+                        💬 Join Discord
+                    </a>
+                </div>
+            </div>
+
+            <div class="executor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">Script Executor</div>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        Online
+                    </div>
+                </div>
+                <div class="code-editor"></div>
+                <div class="editor-actions">
+                    <button class="btn btn-small btn-execute">▶ Execute</button>
+                    <button class="btn btn-small btn-clear">✕ Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <h2>Why Feather?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Optimized execution engine delivers scripts in milliseconds. Experience unmatched performance with minimal resource usage.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Secure & Safe</h3>
+                    <p>Advanced security protocols protect your system. Built-in sandboxing ensures safe script execution every time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Modern Interface</h3>
+                    <p>Beautiful, intuitive design makes scripting a breeze. Clean UI with powerful features at your fingertips.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Highly Compatible</h3>
+                    <p>Works seamlessly with all major platforms. Support for thousands of scripts out of the box.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>Premium Quality</h3>
+                    <p>Enterprise-grade reliability with zero compromises. Regular updates and dedicated support.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Always Updated</h3>
+                    <p>Continuous improvements and new features. Stay ahead with automatic updates and patches.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>500K+</h3>
+                    <p>Active Users</p>
+                </div>
+                <div class="stat-item">
+                    <h3>99.9%</h3>
+                    <p>Uptime</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10M+</h3>
+                    <p>Scripts Executed</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Support</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="logo">Feather.lol</div>
+        <div class="footer-links">
+            <a href="#terms">Terms of Service</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="https://discord.gg/EGURauaBZQ" target="_blank">Discord</a>
+            <a href="#github">GitHub</a>
+        </div>
+        <div style="color: var(--text-secondary); font-size: 0.9rem;">
+            © 2024 Feather.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Simple code editor interaction
+        const codeEditor = document.querySelector('.code-editor');
+        const executeBtn = document.querySelector('.btn-execute');
+        const clearBtn = document.querySelector('.btn-clear');
+
+        codeEditor.contentEditable = true;
+        codeEditor.addEventListener('focus', function() {
+            if (this.textContent === '// Enter your script here...') {
+                this.textContent = '';
+                this.style.opacity = '1';
+            }
+        });
+
+        codeEditor.addEventListener('blur', function() {
+            if (this.textContent.trim() === '') {
+                this.textContent = '// Enter your script here...';
+                this.style.opacity = '0.5';
+            }
+        });
+
+        executeBtn.addEventListener('click', function() {
+            if (codeEditor.textContent.trim() && codeEditor.textContent !== '// Enter your script here...') {
+                this.textContent = '⏳ Executing...';
+                setTimeout(() => {
+                    this.textContent = '✓ Executed';
+                    setTimeout(() => {
+                        this.textContent = '▶ Execute';
+                    }, 2000);
+                }, 1000);
+            }
+        });
+
+        clearBtn.addEventListener('click', function() {
+            codeEditor.textContent = '// Enter your script here...';
+            codeEditor.style.opacity = '0.5';
+        });
+
+        // Parallax effect on scroll
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    const scrolled = window.pageYOffset;
+                    const parallax = document.querySelector('body::before');
+                    // Subtle parallax effect handled by CSS animations
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
