@@ -386,8 +386,183 @@
     font-family:'Syne Mono',monospace; font-size:.65rem; color:var(--muted2);
   }
 
+  /* ── DOWNLOAD PAGE ── */
+  .download-page {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:100px 24px 80px; position:relative; overflow:hidden;
+  }
+  .download-page .hero-glow {
+    position:absolute; top:-10%; left:50%; transform:translateX(-50%);
+    width:900px; height:600px;
+    background:radial-gradient(ellipse at center, rgba(201,168,76,.10) 0%, rgba(201,168,76,.04) 35%, transparent 70%);
+    pointer-events:none; animation:hglow 6s ease-in-out infinite;
+  }
+  .download-card {
+    background:var(--black2); border:1px solid var(--border);
+    border-radius:24px; padding:64px 80px;
+    text-align:center; max-width:720px; width:100%;
+    position:relative; overflow:hidden;
+    box-shadow:0 40px 100px rgba(0,0,0,.6);
+  }
+  .download-card::before {
+    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:400px; height:1px;
+    background:linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .download-card-glow {
+    position:absolute; top:-60px; left:50%; transform:translateX(-50%);
+    width:400px; height:200px;
+    background:radial-gradient(ellipse, rgba(201,168,76,.1) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .dl-icon-wrap {
+    width:80px; height:80px; border-radius:20px;
+    background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.25);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 32px; position:relative; z-index:1;
+    transition:background .3s;
+  }
+  .dl-icon-wrap:hover { background:rgba(201,168,76,.2); }
+  .dl-icon-wrap svg { color:var(--gold); }
+  .download-card h1 {
+    font-size:clamp(2rem,4vw,3rem); font-weight:800;
+    letter-spacing:-.04em; line-height:1.05;
+    margin-bottom:12px; position:relative; z-index:1;
+  }
+  .download-card h1 span { color:var(--gold); }
+  .dl-version {
+    font-family:'Syne Mono',monospace; font-size:.75rem;
+    color:var(--muted); letter-spacing:.06em;
+    margin-bottom:40px; position:relative; z-index:1;
+  }
+  .dl-version span { color:var(--muted2); margin:0 8px; }
+  .btn-installer {
+    display:inline-flex; align-items:center; justify-content:center; gap:12px;
+    background:var(--gold); color:#000;
+    font-family:'Syne',sans-serif; font-weight:800;
+    font-size:1rem; padding:18px 56px; border-radius:12px;
+    text-decoration:none; border:none; width:100%; max-width:380px;
+    transition:background .2s, transform .15s, box-shadow .2s;
+    position:relative; z-index:1;
+  }
+  .btn-installer:hover {
+    background:var(--gold2); transform:translateY(-2px);
+    box-shadow:0 12px 40px rgba(201,168,76,.4);
+  }
+  .dl-notes {
+    display:flex; align-items:center; justify-content:center;
+    gap:0; margin-top:32px; position:relative; z-index:1;
+    flex-wrap:wrap;
+  }
+  .dl-note {
+    display:flex; align-items:center; gap:7px;
+    font-size:.75rem; color:var(--muted); padding:0 20px;
+    border-right:1px solid var(--border);
+  }
+  .dl-note:last-child { border-right:none; }
+  .dl-note svg { flex-shrink:0; opacity:.7; }
+  .dl-note.warn { color:var(--gold); }
+  .dl-note.warn svg { opacity:1; }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── PAGES ── */
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* ── SCRIPT HUB ── */
+  .scripthub {
+    padding:100px 48px 80px; max-width:1280px; margin:0 auto;
+    position:relative; z-index:1; min-height:100vh;
+  }
+  .scripthub-header { text-align:center; margin-bottom:36px; }
+  .scripthub-header h1 {
+    font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:800;
+    letter-spacing:-.03em; margin-bottom:8px;
+  }
+  .scripthub-header h1 span { color:var(--gold); }
+  .scripthub-header p { font-size:.82rem; color:var(--muted); font-weight:400; }
+
+  .search-wrap { max-width:660px; margin:0 auto 48px; position:relative; }
+  .search-wrap svg {
+    position:absolute; left:18px; top:50%; transform:translateY(-50%);
+    color:var(--muted); pointer-events:none;
+  }
+  .search-input {
+    width:100%; padding:15px 20px 15px 48px;
+    background:var(--black2); border:1px solid var(--border);
+    border-radius:12px; color:var(--white);
+    font-family:'Syne',sans-serif; font-size:.88rem;
+    outline:none; transition:border-color .2s, box-shadow .2s;
+  }
+  .search-input::placeholder { color:var(--muted); }
+  .search-input:focus {
+    border-color:rgba(201,168,76,.4);
+    box-shadow:0 0 0 3px rgba(201,168,76,.08);
+  }
+
+  .scripts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+
+  .script-card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:16px; padding:28px 28px 24px;
+    display:flex; flex-direction:column;
+    position:relative; overflow:hidden;
+    transition:border-color .3s, transform .25s, box-shadow .25s;
+  }
+  .script-card:hover {
+    border-color:rgba(201,168,76,.25); transform:translateY(-4px);
+    box-shadow:0 16px 48px rgba(0,0,0,.5), 0 0 0 1px rgba(201,168,76,.08);
+  }
+  .script-card::before {
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse at top left, rgba(201,168,76,.05) 0%, transparent 60%);
+    opacity:0; transition:opacity .3s;
+  }
+  .script-card:hover::before { opacity:1; }
+
+  .script-card-top {
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:20px;
+  }
+  .script-icon {
+    width:44px; height:44px; border-radius:12px;
+    background:rgba(201,168,76,.1); border:1px solid rgba(201,168,76,.2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.85rem; color:var(--gold);
+    font-family:'Syne Mono',monospace; font-weight:700;
+    transition:background .3s;
+  }
+  .script-card:hover .script-icon { background:rgba(201,168,76,.18); }
+  .script-version {
+    font-family:'Syne Mono',monospace; font-size:.6rem;
+    color:var(--muted2); background:var(--black3);
+    border:1px solid var(--border); padding:3px 8px; border-radius:6px;
+  }
+  .script-card h3 { font-size:1rem; font-weight:700; letter-spacing:-.01em; margin-bottom:6px; }
+  .script-game {
+    display:flex; align-items:center; gap:6px;
+    font-size:.72rem; color:var(--gold); margin-bottom:12px; font-weight:500;
+  }
+  .script-desc {
+    font-size:.8rem; line-height:1.7; color:var(--muted);
+    font-weight:400; flex:1; margin-bottom:24px;
+  }
+  .btn-copy {
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--gold); color:#000;
+    font-family:'Syne',sans-serif; font-weight:700;
+    font-size:.82rem; padding:12px 20px; border-radius:10px;
+    border:none; width:100%; cursor:none;
+    transition:background .2s, transform .15s, box-shadow .2s;
+    position:relative; z-index:1;
+  }
+  .btn-copy:hover { background:var(--gold2); transform:translateY(-1px); box-shadow:0 6px 20px rgba(201,168,76,.3); }
+  .btn-copy.copied { background:#22c55e; color:#fff; }
+
+  .no-results { text-align:center; padding:80px 0; color:var(--muted); font-size:.9rem; display:none; }
 
   /* ── RESPONSIVE ── */
   @media(max-width:960px) {
@@ -422,19 +597,19 @@
   </a>
   <ul class="nav-links">
     <li>
-      <a href="#" class="active">
+      <a href="#" class="active" data-nav="home">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
         Home
       </a>
     </li>
     <li>
-      <a href="#">
+      <a href="#" data-nav="scripthub">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         Script Hub
       </a>
     </li>
     <li>
-      <a href="#">
+      <a href="#" data-nav="download">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download
       </a>
@@ -442,6 +617,9 @@
     <li><a href="https://discord.gg/WkhFB26CgZ" target="_blank" class="btn-discord">Join Discord</a></li>
   </ul>
 </nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
 
 <!-- HERO -->
 <section class="hero">
@@ -460,7 +638,7 @@
   <p class="hero-sub">The most powerful, lightweight, and undetected script executor. Experience zero-latency injection and a massive script library.</p>
 
   <div class="hero-btns">
-    <a href="#" class="btn-download">
+    <a href="#" data-nav="download" class="btn-download">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download Now
     </a>
@@ -541,7 +719,7 @@
     <h2>Ready to <span>dominate</span><br>with Feather?</h2>
     <p>Join over 50,000 players already using Feather Executor. Free to download, forever.</p>
     <div class="cta-btns">
-      <a href="#" class="btn-download">
+      <a href="#" data-nav="download" class="btn-download">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download Now
       </a>
@@ -555,26 +733,236 @@
 
 <!-- FOOTER -->
 <footer>
-  <a href="#" class="footer-logo">
+  <a href="#" class="footer-logo" data-nav="home">
     <div class="footer-logo-icon">🪶</div>
     feather.lol
   </a>
   <ul class="footer-links">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Script Hub</a></li>
-    <li><a href="#">Download</a></li>
+    <li><a href="#" data-nav="home">Home</a></li>
+    <li><a href="#" data-nav="scripthub">Script Hub</a></li>
+    <li><a href="#" data-nav="download">Download</a></li>
     <li><a href="https://discord.gg/WkhFB26CgZ" target="_blank">Discord</a></li>
     <li><a href="#">Terms</a></li>
   </ul>
   <p class="footer-copy">© 2025 feather.lol</p>
 </footer>
 
+</div><!-- end #page-home -->
+
+<!-- SCRIPT HUB PAGE -->
+<div id="page-scripthub" class="page">
+  <section class="scripthub">
+    <div class="scripthub-header">
+      <span class="section-tag">✦ script hub</span>
+      <h1>Cloud <span>Script Hub</span></h1>
+      <p>Browse thousands of community-verified scripts. Click to copy and inject instantly.</p>
+    </div>
+
+    <div class="search-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="scriptSearch" type="text" placeholder="Search scripts by game or name..." />
+    </div>
+
+    <div class="scripts-grid" id="scriptsGrid">
+      <div class="script-card" data-game="Murder Mystery 2" data-name="Murder Mystery 2 ESP">
+        <div class="script-card-top">
+          <div class="script-icon">&gt;_</div>
+          <span class="script-version">v1.0</span>
+        </div>
+        <h3>Murder Mystery 2 ESP</h3>
+        <div class="script-game">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/></svg>
+          Murder Mystery 2
+        </div>
+        <p class="script-desc">See murderer and sheriff location at all times.</p>
+        <button class="btn-copy" data-script="loadstring(game:HttpGet('https://raw.githubusercontent.com/feather/mm2esp/main/script.lua'))()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Script
+        </button>
+      </div>
+
+      <div class="script-card" data-game="Da Hood" data-name="Da Hood Aimlock">
+        <div class="script-card-top">
+          <div class="script-icon">&gt;_</div>
+          <span class="script-version">v1.0</span>
+        </div>
+        <h3>Da Hood Aimlock</h3>
+        <div class="script-game">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/></svg>
+          Da Hood
+        </div>
+        <p class="script-desc">Silent aim, ESP, and fly for Da Hood.</p>
+        <button class="btn-copy" data-script="loadstring(game:HttpGet('https://raw.githubusercontent.com/feather/dahood/main/script.lua'))()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Script
+        </button>
+      </div>
+
+      <div class="script-card" data-game="Blade Ball" data-name="Blade Ball Auto Parry">
+        <div class="script-card-top">
+          <div class="script-icon">&gt;_</div>
+          <span class="script-version">v1.0</span>
+        </div>
+        <h3>Blade Ball Auto Parry</h3>
+        <div class="script-game">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/></svg>
+          Blade Ball
+        </div>
+        <p class="script-desc">Never lose in Blade Ball again. Auto parry with 100% accuracy.</p>
+        <button class="btn-copy" data-script="loadstring(game:HttpGet('https://raw.githubusercontent.com/feather/bladeball/main/script.lua'))()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Script
+        </button>
+      </div>
+
+      <div class="script-card" data-game="Adopt Me" data-name="Adopt Me Auto Farm">
+        <div class="script-card-top">
+          <div class="script-icon">&gt;_</div>
+          <span class="script-version">v1.0</span>
+        </div>
+        <h3>Adopt Me Auto Farm</h3>
+        <div class="script-game">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/></svg>
+          Adopt Me
+        </div>
+        <p class="script-desc">Automatically farm bucks, care for pets, and complete tasks instantly.</p>
+        <button class="btn-copy" data-script="loadstring(game:HttpGet('https://raw.githubusercontent.com/feather/adoptme/main/script.lua'))()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Script
+        </button>
+      </div>
+
+      <div class="script-card" data-game="Arsenal" data-name="Arsenal Aimbot">
+        <div class="script-card-top">
+          <div class="script-icon">&gt;_</div>
+          <span class="script-version">v1.0</span>
+        </div>
+        <h3>Arsenal Aimbot</h3>
+        <div class="script-game">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/></svg>
+          Arsenal
+        </div>
+        <p class="script-desc">Lock onto enemies with precision. Includes ESP and no-recoil.</p>
+        <button class="btn-copy" data-script="loadstring(game:HttpGet('https://raw.githubusercontent.com/feather/arsenal/main/script.lua'))()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Script
+        </button>
+      </div>
+
+      <div class="script-card" data-game="Brookhaven" data-name="Brookhaven RP Admin">
+        <div class="script-card-top">
+          <div class="script-icon">&gt;_</div>
+          <span class="script-version">v1.0</span>
+        </div>
+        <h3>Brookhaven RP Admin</h3>
+        <div class="script-game">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/></svg>
+          Brookhaven
+        </div>
+        <p class="script-desc">Unlock admin commands, fly, speed, and noclip in Brookhaven RP.</p>
+        <button class="btn-copy" data-script="loadstring(game:HttpGet('https://raw.githubusercontent.com/feather/brookhaven/main/script.lua'))()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Script
+        </button>
+      </div>
+    </div>
+
+    <div class="no-results" id="noResults">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      No scripts found for "<span id="noResultsQuery"></span>"
+    </div>
+  </section>
+
+  <footer>
+    <a href="#" class="footer-logo" data-nav="home">
+      <div class="footer-logo-icon">🪶</div>
+      feather.lol
+    </a>
+    <ul class="footer-links">
+      <li><a href="#" data-nav="home">Home</a></li>
+      <li><a href="#" data-nav="scripthub">Script Hub</a></li>
+      <li><a href="#" data-nav="download">Download</a></li>
+      <li><a href="https://discord.gg/WkhFB26CgZ" target="_blank">Discord</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 feather.lol</p>
+  </footer>
+</div><!-- end #page-scripthub -->
+
+<!-- DOWNLOAD PAGE -->
+<div id="page-download" class="page">
+  <div class="download-page">
+    <div class="hero-glow"></div>
+    <div class="orb orb-l"></div>
+    <div class="orb orb-r"></div>
+
+    <div class="download-card">
+      <div class="download-card-glow"></div>
+
+      <div class="dl-icon-wrap">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </div>
+
+      <h1>Download <span>Feather</span></h1>
+      <p class="dl-version">
+        Version 1.0.4
+        <span>•</span>
+        Windows 10/11
+        <span>•</span>
+        64-bit
+      </p>
+
+      <a href="#" class="btn-installer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download Installer
+      </a>
+
+      <div class="dl-notes">
+        <div class="dl-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Windows Supported
+        </div>
+        <div class="dl-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Mobile Coming Soon
+        </div>
+        <div class="dl-note warn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Disable Antivirus
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="#" class="footer-logo" data-nav="home">
+      <div class="footer-logo-icon">🪶</div>
+      feather.lol
+    </a>
+    <ul class="footer-links">
+      <li><a href="#" data-nav="home">Home</a></li>
+      <li><a href="#" data-nav="scripthub">Script Hub</a></li>
+      <li><a href="#" data-nav="download">Download</a></li>
+      <li><a href="https://discord.gg/WkhFB26CgZ" target="_blank">Discord</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 feather.lol</p>
+  </footer>
+</div><!-- end #page-download -->
+
 <script>
   // ── CURSOR ──
   const cur = document.getElementById('cursor');
   const trail = document.getElementById('cursor-trail');
   let mx=0, my=0, tx=0, ty=0;
-
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     cur.style.left = mx+'px'; cur.style.top = my+'px';
@@ -584,30 +972,77 @@
     trail.style.left = tx+'px'; trail.style.top = ty+'px';
     requestAnimationFrame(animTrail);
   })();
-
-  document.querySelectorAll('a, button, .card').forEach(el => {
+  document.querySelectorAll('a, button, .card, .script-card').forEach(el => {
     el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
     el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
   });
 
-  // ── SCROLL REVEAL ──
+  // ── PAGE NAVIGATION ──
+  function navigate(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    window.scrollTo(0, 0);
+    // update nav active state
+    document.querySelectorAll('[data-nav]').forEach(a => {
+      a.classList.toggle('active', a.dataset.nav === page);
+    });
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-nav]');
+    if (el) {
+      e.preventDefault();
+      navigate(el.dataset.nav);
+    }
+  });
+
+  // ── SCROLL REVEAL (home) ──
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
     });
   }, { threshold: 0.08 });
-
   document.querySelectorAll('.features-header, .cta-box, .stat-item').forEach(el => obs.observe(el));
-
-  // stagger cards
   document.querySelectorAll('.card').forEach((card, i) => {
     card.style.transitionDelay = (i * 0.08) + 's';
     obs.observe(card);
   });
-
-  // stagger stats
   document.querySelectorAll('.stat-item').forEach((s, i) => {
     s.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  // ── SCRIPT SEARCH ──
+  const searchInput = document.getElementById('scriptSearch');
+  const grid = document.getElementById('scriptsGrid');
+  const noResults = document.getElementById('noResults');
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+    document.querySelectorAll('.script-card').forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      const game = card.dataset.game.toLowerCase();
+      const match = !q || name.includes(q) || game.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+    document.getElementById('noResultsQuery').textContent = searchInput.value;
+  });
+
+  // ── COPY SCRIPT ──
+  document.querySelectorAll('.btn-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const script = btn.dataset.script;
+      navigator.clipboard.writeText(script).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Script`;
+        }, 2000);
+      });
+    });
   });
 </script>
 </body>
